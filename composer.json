@@ -1,5 +1,5 @@
 {
-  "name": "projectrebel/active-campaign-api-v3",
+  "name": "projectrebel/laravel-active-campaign",
   "description": "A fluent wrapper around version 3 of the Active Campaign API",
   "type": "library",
   "license": "MIT",
@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "guzzlehttp/guzzle": "^7.2"
+    "guzzlehttp/guzzle": "^7.0.1"
   },
   "autoload": {
     "psr-4": {

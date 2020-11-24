@@ -4,12 +4,8 @@ namespace ProjectRebel\ActiveCampaign\Models;
 
 use Illuminate\Support\Facades\Http;
 
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
-
 class ActiveCampaign
 {
-    // use HasFactory;
     private $key;
     private $subdomain;
     private $url;
@@ -25,6 +21,11 @@ class ActiveCampaign
         $this->url = "https://{$subdomain}.api-us1.com/api/3";
     }
 
+    public function init()
+    {
+        return $this;
+    }
+
     public function send($method, $resource, $data = null)
     {
         $http = Http::withHeaders(['Api-Token' => $this->key]);
@@ -36,17 +37,14 @@ class ActiveCampaign
             case 'POST':
                 $response = $http->post($this->url . $resource, $data);
                 break;
-            // case 'GET':
-            //     echo "i equals 2";
-            //     break;
         }
 
         return $response;
     }
 
-    public function listContacts()
+    public function listContacts(array $parameters = null)
     {
-        return $this->send('GET', '/contacts');
+        return $this->send('GET', '/contacts', $parameters);
     }
 
     public function createContact($data)

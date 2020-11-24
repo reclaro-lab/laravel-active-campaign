@@ -3,17 +3,17 @@
 namespace ProjectRebel\ActiveCampaign;
 
 use Illuminate\Support\ServiceProvider;
-use ProjectRebel\ActiveCampaign\Facades\ActiveCampaign;
+use ProjectRebel\ActiveCampaign\Models\ActiveCampaign;
 
 class ActiveCampaignServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind('activecampaign', function ($app) {
-            return new ActiveCampaign();
-        });
-
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'activecampaign');
+
+        $this->app->bind('activecampaign', function ($app) {
+            return new ActiveCampaign(config('activecampaign.key', 'key'), config('activecampaign.subdomain', 'subdomain'));
+        });
     }
 
     public function boot()

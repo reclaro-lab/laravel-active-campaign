@@ -5,6 +5,7 @@ namespace ProjectRebel\ActiveCampaign\Tests\Unit;
 use Illuminate\Support\Facades\Http;
 use ProjectRebel\ActiveCampaign\Tests\TestCase;
 use ProjectRebel\ActiveCampaign\Models\ActiveCampaign;
+use ProjectRebel\ActiveCampaign\Facades\ActiveCampaign as ActiveCampaignFacade;
 
 class ActiveCampaignTest extends TestCase
 {
@@ -86,6 +87,29 @@ class ActiveCampaignTest extends TestCase
 
         Http::assertSent(function ($request) {
             return $request->url() == 'https://subdomain.api-us1.com/api/3/contacts' && $request->method = 'GET';
+        });
+
+        $this->assertEquals($response->status(), 200);
+        $this->assertEquals($expectedResponse, $response->json());
+    }
+
+    public function testItCanSearchForContactByEmail()
+    {
+        $expectedResponse = [
+            'contacts' => [
+                ['email' => 'janedoe@example.com', 'id' => '68'],
+                ['email' => 'aaronallen@example.com', 'id' => '73']
+            ]
+        ];
+
+        Http::fake([
+            'https://subdomain.api-us1.com/api/3/contacts?email=janedoe%40example.com' => Http::response($expectedResponse, 200)
+        ]);
+
+        $response = $this->ac->listContacts(['email' => 'janedoe@example.com']);
+
+        Http::assertSent(function ($request) {
+            return $request->url() == 'https://subdomain.api-us1.com/api/3/contacts?email=janedoe%40example.com' && $request->method = 'GET';
         });
 
         $this->assertEquals($response->status(), 200);
@@ -263,30 +287,40 @@ class ActiveCampaignTest extends TestCase
 
     // public function testItCanRemoveATagFromAContact()
     // {
-    //     $expectedResponse = array(
-    //         "contactTag" => array(
-    //             "cdate" => "2017-06-08T16:11:53-05:00",
-    //             "contact" => "1",
-    //             "id" => "1",
-    //             "links" => array(
-    //                 "contact" => "/1/contact",
-    //                 "tag" => "/1/tag"
-    //             ),
-    //             "tag" => "20"
-    //         )
-    //     );;
-
-    //     Http::fake([
-    //         'https://subdomain.api-us1.com/api/3/contactTags' => Http::response($expectedResponse, 201)
-    //     ]);
-
-    //     $response = $this->ac->addTagToContact(20, 1);
-
-    //     Http::assertSent(function ($request) {
-    //         return $request->url() == 'https://subdomain.api-us1.com/api/3/contactTags' && $request->method = 'POST';
-    //     });
-
-    //     $this->assertEquals($response->status(), 201);
-    //     $this->assertEquals($expectedResponse, $response->json());
+    // 
     // }
+
+    public function testItWillReturnAnInstanceViaFacade()
+    {
+        config(['activecampaign.key' => 'key']);
+        config(['activecampaign.subdomain' => 'subdomain']);
+        $instance = ActiveCampaignFacade::init();
+        $this->assertInstanceOf(ActiveCampaign::class, $instance);
+    }
+
+    public function testItCanBeUsedViaFacade()
+    {
+        $expectedResponse = [
+            'contacts' => [
+                ['email' => 'janedoe@example.com', 'id' => '68'],
+                ['email' => 'aaronallen@example.com', 'id' => '73']
+            ]
+        ];
+
+        Http::fake([
+            'https://subdomain.api-us1.com/api/3/contacts' => Http::response($expectedResponse, 200)
+        ]);
+
+        config(['activecampaign.key' => 'key']);
+        config(['activecampaign.subdomain' => 'subdomain']);
+
+        $response = ActiveCampaignFacade::listContacts();
+
+        Http::assertSent(function ($request) {
+            return $request->url() == 'https://subdomain.api-us1.com/api/3/contacts' && $request->method = 'GET';
+        });
+
+        $this->assertEquals($response->status(), 200);
+        $this->assertEquals($expectedResponse, $response->json());
+    }
 }

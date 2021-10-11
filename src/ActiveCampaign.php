@@ -2,8 +2,8 @@
 
 namespace ProjectRebel\ActiveCampaign;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-
 
 class ActiveCampaign
 {
@@ -29,7 +29,15 @@ class ActiveCampaign
         return $this;
     }
 
-    public function send($method, $resource, $data = null)
+    /**
+     * Send the request.
+     *
+     * @param string $method
+     * @param string $resource
+     * @param array|null $data
+     * @return Response
+     */
+    public function send(string $method, string $resource, array $data = null): Response
     {
         $http = Http::withHeaders(['Api-Token' => $this->key]);
 
@@ -51,15 +59,7 @@ class ActiveCampaign
         return $response;
     }
 
-    public function listContacts(array $parameters = null)
-    {
-        return $this->send('GET', '/contacts', $parameters);
-    }
 
-    public function createContact($data)
-    {
-        return $this->send('POST', '/contacts', $data);
-    }
 
     public function syncContact($data)
     {

@@ -4,8 +4,11 @@ namespace ProjectRebel\ActiveCampaign\Models;
 
 use Illuminate\Support\Facades\Http;
 
+
 class ActiveCampaign
 {
+    use Accounts;
+
     private $key;
     private $subdomain;
     private $url;

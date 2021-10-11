@@ -4,7 +4,7 @@ namespace ProjectRebel\ActiveCampaign\Models;
 
 use Illuminate\Support\Facades\Http;
 
-class Accounts extends ActiveCampaign
+trait Accounts
 {
     public function createContact($data)
     {

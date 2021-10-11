@@ -1,13 +1,13 @@
 <?php
 
-namespace ProjectRebel\ActiveCampaign\Models;
+namespace ProjectRebel\ActiveCampaign;
 
 use Illuminate\Support\Facades\Http;
 
 
 class ActiveCampaign
 {
-    use Accounts;
+    use Controllers\Accounts;
 
     private $key;
     private $subdomain;
@@ -39,6 +39,12 @@ class ActiveCampaign
                 break;
             case 'POST':
                 $response = $http->post($this->url . $resource, $data);
+                break;
+            case 'PUT':
+                $response = $http->put($this->url . $resource, $data);
+                break;
+            case 'DELETE':
+                $response = $http->delete($this->url . $resource, $data);
                 break;
         }
 

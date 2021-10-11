@@ -3,7 +3,7 @@
 namespace ProjectRebel\ActiveCampaign;
 
 use Illuminate\Support\ServiceProvider;
-use ProjectRebel\ActiveCampaign\Models\ActiveCampaign;
+use ProjectRebel\ActiveCampaign\ActiveCampaign;
 
 class ActiveCampaignServiceProvider extends ServiceProvider
 {

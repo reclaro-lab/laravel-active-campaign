@@ -32,7 +32,7 @@ Then add your Active Campaign key and subdomain to your `.env` file.
 
 
 ## Usage
-More documentation coming soon.
+More documentation very coming soon.
 
 ##### Available Commands
 - init

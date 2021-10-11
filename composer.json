@@ -1,12 +1,12 @@
 {
-  "name": "projectrebel/laravel-active-campaign",
-  "description": "A fluent wrapper around version 3 of the Active Campaign API",
+  "name": "reclaro/laravel-active-campaign",
+  "description": "A fluent wrapper around version 3 of the Active Campaign API - extended from ProjectRebel",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
-      "name": "Nolan Nordlund",
-      "email": "nolan@projectrebel.io"
+      "name": "Tim Wiffen",
+      "email": "tim@reclaro.com"
     }
   ],
   "require": {

@@ -1,5 +1,5 @@
 {
-  "name": "reclaro/laravel-active-campaign",
+  "name": "projectrebel/laravel-active-campaign",
   "description": "A fluent wrapper around version 3 of the Active Campaign API - extended from ProjectRebel",
   "type": "library",
   "license": "MIT",

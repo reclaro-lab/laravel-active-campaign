@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Http;
 class ActiveCampaign
 {
     use Controllers\Accounts;
+    use Controllers\Contacts;
+    use Controllers\ContactTags;
+    use Controllers\AccountContactAssociation;
+    use Controllers\ContactLists;
+    use Controllers\Tags;
+    use Controllers\Lists;
 
     private $key;
     private $subdomain;
@@ -59,39 +65,6 @@ class ActiveCampaign
         return $response;
     }
 
-
-
-    public function syncContact($data)
-    {
-        return $this->send('POST', '/contact/sync', $data);
-    }
-
-    public function addContactToList($contactId, $listId)
-    {
-        $data = [
-            'contactList' => [
-                'list' => $listId,
-                'contact' => $contactId,
-                'status' => 1
-            ]
-        ];
-
-        return $this->send('POST', '/contactLists', $data);
-    }
-
-    public function unsubscribeContactFromList(int $contactId, int $listId)
-    {
-        $data = [
-            'contactList' => [
-                'list' => $listId,
-                'contact' => $contactId,
-                'status' => 2
-            ]
-        ];
-
-        return $this->send('POST', '/contactLists', $data);
-    }
-
     public function searchForTag(string $tag)
     {
         $data = [
@@ -99,17 +72,5 @@ class ActiveCampaign
         ];
 
         return $this->send('GET', '/tags', $data);
-    }
-
-    public function addTagToContact(int $tagId, int $contactId)
-    {
-        $data = array(
-            "contactTag" => array(
-                "contact" => $contactId,
-                "tag" => $tagId
-            )
-        );
-
-        return $this->send('POST', '/contactTags', $data);
     }
 }

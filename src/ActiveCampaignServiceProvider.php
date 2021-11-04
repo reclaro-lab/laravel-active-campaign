@@ -12,14 +12,16 @@ class ActiveCampaignServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'activecampaign');
 
         $this->app->bind('activecampaign', function ($app) {
-            return new ActiveCampaign(config('activecampaign.key', 'key'), config('activecampaign.subdomain', 'subdomain'));
+            return new ActiveCampaign(
+                config('activecampaign.key', 'key'),
+                config('activecampaign.subdomain', 'subdomain')
+            );
         });
     }
 
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('activecampaign.php'),
             ], 'config');
